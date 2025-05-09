@@ -1,0 +1,2572 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSpace - Your AI Mental Wellness Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        :root {
+            --primary-color: #b3e5fc;
+            --secondary-color: #81d4fa;
+            --accent-color: #fce4ec;
+            --text-color: #424242;
+            --background-color: #fffde7;
+            --card-background: #f5f5f5;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --font-family: 'Roboto', sans-serif;
+            --transition-duration: 0.4s;
+            --light-mode-nav-bg: #81d4fa;
+            --dark-mode-nav-bg: #64b5f6;
+            --light-mode-cta-bg: #fce4ec;
+            --dark-mode-cta-bg: #f06292;
+            --light-mode-chatbot-bg: #fff;
+            --dark-mode-chatbot-bg: #303030;
+            --light-mode-chatbot-text: #424242;
+            --dark-mode-chatbot-text: #eee;
+            --light-mode-chatbot-user-bg: #e8f5e9;
+            --dark-mode-chatbot-user-bg: #424242;
+            --light-mode-chatbot-bot-bg: #f1f8e9;
+            --dark-mode-chatbot-bot-bg: #303030;
+            --light-mode-footer-bg: #81d4fa;
+            --dark-mode-footer-bg: #64b5f6;
+            --banner-overlay: rgba(255, 255, 255, 0.3);
+            --language-select-bg: rgba(255, 255, 255, 0.7);
+            --language-select-hover-bg: rgba(255, 255, 255, 0.8);
+            --language-select-border: 1px solid rgba(100, 181, 246, 0.6);
+            --language-select-focus-border: 1px solid #64b5f6;
+            --calm-primary: #b3e5fc;
+            --calm-secondary: #81d4fa;
+            --calm-accent: #fce4ec;
+            --calm-background: #fffde7;
+            --calm-card: #f5f5f5;
+            --calm-text: #424242;
+            --calm-shadow: rgba(0, 0, 0, 0.1);
+            --calm-meditation-bg: linear-gradient(to bottom, #b3e5fc, #81d4fa);
+            --calm-footer-bg: #81d4fa;
+            --calm-chatbot-bg: #fff;
+            --calm-chatbot-user-bg: #e8f5e9;
+            --calm-chatbot-bot-bg: #f1f8e9;
+            --calm-chatbot-text: #424242;
+        }
+
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            background: var(--calm-background);
+            color: var(--calm-text);
+            text-align: center;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: background-color var(--transition-duration), color var(--transition-duration);
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode {
+            --calm-primary: #64b5f6;
+            --calm-secondary: #42a5f5;
+            --calm-accent: #f06292;
+            --calm-background: #212121;
+            --calm-card: #303030;
+            --calm-text: #eee;
+            --calm-shadow: rgba(0, 0, 0, 0.3);
+            --calm-meditation-bg: linear-gradient(to bottom, #42a5f5, #2979ff);
+            --calm-footer-bg: #42a5f5;
+            --calm-chatbot-bg: #212121;
+            --calm-chatbot-user-bg: #303030;
+            --calm-chatbot-bot-bg: #303030;
+            --calm-chatbot-text: #ddd;
+        }
+
+        @keyframes backgroundAnimation {
+            0% {
+                background-color: #fffde7;
+            }
+            100% {
+                background-color: #b3e5fc;
+            }
+        }
+
+        /* Navigation Bar */
+        nav {
+            background: var(--calm-primary);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 6px 12px var(--calm-shadow);
+            transition: background-color var(--transition-duration);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        nav a,
+        .dark-mode-toggle {
+            color: white;
+            font-size: 18px;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color var(--transition-duration), transform var(--transition-duration);
+            margin: 0 8px;
+        }
+
+        nav a:hover {
+            background-color: var(--calm-secondary);
+            transform: scale(1.05);
+        }
+
+        .dark-mode-toggle {
+            background: none;
+            border: none;
+            font-size: 24px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .dark-mode-toggle:hover {
+            background-color: var(--calm-secondary);
+            transform: scale(1.05);
+        }
+
+        .language-select-container {
+            position: relative;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .language-select {
+            background: var(--language-select-bg);
+            border: var(--language-select-border);
+            border-radius: 30px;
+            font-family: var(--font-family);
+            color: var(--calm-text);
+            font-size: 18px;
+            padding: 10px 20px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+            transition: background-color var(--transition-duration),
+                border-color var(--transition-duration), color var(--transition-duration);
+            outline: none;
+            position: relative;
+        }
+
+        .language-select:hover {
+            background-color: var(--language-select-hover-bg);
+        }
+
+        .language-select:focus {
+            border-color: var(--language-select-focus-border);
+            box-shadow: 0 0 0 2px var(--calm-primary);
+        }
+
+        .language-select::after {
+            content: '\25BC';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .language-select option {
+            color: var(--calm-text);
+            background-color: var(--language-select-bg);
+        }
+
+        .language-select option:hover {
+            background-color: var(--language-select-hover-bg);
+        }
+
+        .flag-icon {
+            width: 20px;
+            height: 15px;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        .pill-button {
+            border-radius: 50px;
+            padding: 10px 20px;
+            background-color: var(--calm-secondary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color var(--transition-duration), transform var(--transition-duration),
+                box-shadow var(--transition-duration);
+            box-shadow: 3px 3px 10px var(--calm-shadow);
+        }
+
+        .pill-button:hover {
+            background-color: var(--calm-primary);
+            transform: scale(1.05);
+            box-shadow: 4px 4px 12px var(--calm-shadow);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            color: white;
+            padding: 180px 30px;
+            margin-top: 75px;
+            text-align: center;
+            border-radius: 30px;
+            box-shadow: 0 8px 16px var(--calm-shadow);
+            transition: background var(--transition-duration);
+            background-color: var(--calm-secondary);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(70%);
+            z-index: -1;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--banner-overlay);
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 26px;
+            margin-bottom: 50px;
+            line-height: 1.5;
+            animation: fadeInUp 1s ease-out;
+            animation-delay: 0.2s;
+            animation-fill-mode: both;
+        }
+
+        .hero .cta-button {
+            background-color: var(--calm-accent);
+            color: var(--calm-text);
+            padding: 18px 35px;
+            border: none;
+            border-radius: 60px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color var(--transition-duration), transform var(--transition-duration),
+                box-shadow var(--transition-duration);
+            box-shadow: 4px 4px 12px var(--calm-shadow);
+            font-weight: 500;
+            animation: fadeInUp 1s ease-out;
+            animation-delay: 0.4s;
+            animation-fill-mode: both;
+        }
+
+        .hero .cta-button:hover {
+            background-color: var(--calm-primary);
+            transform: scale(1.08);
+            box-shadow: 6px 6px 18px var(--calm-shadow);
+        }
+
+        /* Features Section */
+        .features {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 30px;
+            padding: 60px 30px;
+            background: var(--calm-background);
+            flex-wrap: wrap;
+            border-radius: 30px;
+            margin: 30px auto;
+            max-width: 1300px;
+            box-shadow: 0 8px 16px var(--calm-shadow);
+        }
+
+        .feature-card {
+            background: var(--calm-card);
+            border-radius: 30px;
+            padding: 25px;
+            width: 350px;
+            box-shadow: 0 6px 12px var(--calm-shadow);
+            transition: transform var(--transition-duration), box-shadow var(--transition-duration);
+            text-align: left;
+            animation: fadeInUp 0.8s ease-out;
+            flex: 1 1 350px;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card h3 {
+            font-size: 26px;
+            color: var(--calm-primary);
+            margin-bottom: 20px;
+            transition: color var(--transition-duration);
+        }
+
+        .feature-card p {
+            font-size: 18px;
+            color: var(--calm-text);
+            line-height: 1.6;
+        }
+
+        .feature-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-card li {
+            margin-bottom: 8px;
+        }
+
+        .feature-card a {
+            color: var(--calm-primary);
+            text-decoration: none;
+            transition: color var(--transition-duration);
+        }
+
+        .feature-card a:hover {
+            text-decoration: underline;
+            color: var(--calm-secondary);
+        }
+
+        /* Mental Well-Being Test Section */
+        #test,
+        #imageTest,
+        #illusionTest,
+        #sleep,
+        #vent {
+            background: var(--calm-background);
+            padding: 60px 30px;
+            margin: 90px auto;
+            border-radius: 30px;
+            box-shadow: 0 8px 16px var(--calm-shadow);
+            max-width: 900px;
+            display: none;
+        }
+
+        #test h2,
+        #imageTest h2,
+        #illusionTest h2,
+        #sleep h2,
+        #vent h2 {
+            font-size: 36px;
+            margin-bottom: 25px;
+            color: var(--calm-primary);
+        }
+
+        #test p,
+        #imageTest p,
+        #illusionTest p,
+        #sleep p,
+        #vent p {
+            font-size: 20px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        #test button,
+        #imageTest button,
+        #illusionTest button,
+        #sleep button,
+        #vent button {
+            background: var(--calm-primary);
+            color: white;
+            padding: 14px 25px;
+            border: none;
+            border-radius: 60px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color var(--transition-duration), transform var(--transition-duration);
+            box-shadow: 3px 3px 10px var(--calm-shadow);
+        }
+
+        #test button:hover,
+        #imageTest button:hover,
+        #illusionTest button:hover,
+        #sleep button:hover,
+        #vent button:hover {
+            background: var(--calm-secondary);
+            transform: scale(1.05);
+        }
+
+        .question,
+        .image-question,
+        .illusion-question {
+            margin-bottom: 30px;
+            text-align: left;
+            border-radius: 15px;
+            padding: 20px;
+            background: #f9fbe7;
+            box-shadow: 0 3px 7px var(--calm-shadow);
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .question.active,
+        .image-question.active,
+        .illusion-question.active {
+            display: block;
+        }
+
+        .question p,
+        .image-question p,
+        .illusion-question p {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .question label,
+        .image-question label,
+        .illusion-question label {
+            display: block;
+            margin: 8px 0;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .question input[type="radio"],
+        .image-question input[type="radio"],
+        .illusion-question input[type="radio"] {
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e0f2f1;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-bar div {
+            height: 100%;
+            width: 0;
+            background: var(--calm-primary);
+            border-radius: 12px;
+            transition: width var(--transition-duration);
+        }
+
+        .navigation-buttons,
+        .image-navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .navigation-buttons button,
+        .image-navigation-buttons button {
+            background: var(--calm-primary);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 60px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color var(--transition-duration), transform var(--transition-duration);
+            box-shadow: 3px 3px 10px var(--calm-shadow);
+        }
+
+        .navigation-buttons button:hover,
+        .image-navigation-buttons button:hover {
+            background: var(--calm-secondary);
+            transform: scale(1.05);
+        }
+
+        /* Image Test */
+        .image-question img,
+        .illusion-question img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px var(--calm-shadow);
+            transition: transform var(--transition-duration);
+        }
+
+        .image-question img:hover,
+        .illusion-question img:hover {
+            transform: scale(1.03);
+        }
+
+        /* Meditation Section */
+        #meditation {
+            background: var(--calm-meditation-bg);
+            color: white;
+            padding: 40px 30px;
+            margin: 90px auto;
+            border-radius: 20px;
+            box-shadow: 0 6px 12px var(--calm-shadow);
+            max-width: 900px;
+            display: none;
+        }
+
+        #meditation h2 {
+            font-size: 36px;
+            margin-bottom: 25px;
+        }
+
+        #meditation p {
+            font-size: 20px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .meditation-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .meditation-button {
+            background: var(--calm-secondary);
+            color: white;
+            padding: 14px 25px;
+            border: none;
+            border-radius: 60px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform var(--transition-duration), background var(--transition-duration),
+                box-shadow var(--transition-duration);
+            box-shadow: 4px 4px 12px var(--calm-shadow);
+        }
+
+        .meditation-button:hover {
+            background: var(--calm-primary);
+            transform: scale(1.1);
+            box-shadow: 6px 6px 18px var(--calm-shadow);
+        }
+
+        #timer {
+            font-size: 36px;
+            font-weight: 600;
+            margin-top: 30px;
+            color: #fff9c4;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 18px;
+            border-radius: 20px;
+            display: inline-block;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        #countdown {
+            font-size: 28px;
+            font-weight: 600;
+            margin-top: 25px;
+            color: #fff9c4;
+            display: none;
+        }
+
+        .instructions {
+            text-align: left;
+            margin-top: 25px;
+        }
+
+        .instructions h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .instructions ol {
+            padding-left: 30px;
+        }
+
+        .instructions li {
+            margin-bottom: 12px;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .quote {
+            font-style: italic;
+            margin-top: 30px;
+            font-size: 20px;
+            color: #fff9c4;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+        }
+
+        #breathContainer {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 30px auto;
+        }
+
+        #breathBubble {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 100%;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: all 5s ease-in-out;
+        }
+
+        #breathText {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: white;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        #breathBubble.inhale {
+            animation: breatheIn 5s ease-in-out forwards;
+        }
+
+        #breathBubble.exhale {
+            animation: breatheOut 5s ease-in-out forwards;
+        }
+
+        @keyframes breatheIn {
+            0% {
+                transform: scale(1);
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+            100% {
+                transform: scale(1.5);
+                background-color: rgba(255, 255, 255, 0);
+            }
+        }
+
+        @keyframes breatheOut {
+            0% {
+                transform: scale(1.5);
+                background-color: rgba(255, 255, 255, 0);
+            }
+            100% {
+                transform: scale(1);
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        #breathBubble.inhale+#breathText {
+            opacity: 1;
+            animation: fadeInText 5s ease-in-out forwards;
+        }
+
+        #breathBubble.exhale+#breathText {
+            opacity: 1;
+            animation: fadeOutText 5s ease-in-out forwards;
+        }
+
+        @keyframes fadeInText {
+            0% {
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOutText {
+            0% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Sleep Section */
+        #sleep {
+            background: var(--calm-meditation-bg);
+            color: white;
+            padding: 40px 30px;
+            margin: 90px auto;
+            border-radius: 20px;
+            box-shadow: 0 6px 12px var(--calm-shadow);
+            max-width: 900px;
+            display: none;
+        }
+
+        #sleep h2 {
+            font-size: 36px;
+            margin-bottom: 25px;
+        }
+
+        #sleep p {
+            font-size: 20px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .sleep-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .sleep-button {
+            background: var(--calm-secondary);
+            color: white;
+            padding: 14px 25px;
+            border: none;
+            border-radius: 60px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform var(--transition-duration), background var(--transition-duration),
+                box-shadow var(--transition-duration);
+            box-shadow: 4px 4px 12px var(--calm-shadow);
+        }
+
+        .sleep-button:hover {
+            background: var(--calm-primary);
+            transform: scale(1.1);
+            box-shadow: 6px 6px 18px var(--calm-shadow);
+        }
+
+        /* Vent Section */
+        #vent {
+            background: var(--calm-background);
+            color: var(--calm-text);
+            padding: 60px 30px;
+            margin: 90px auto;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px var(--calm-shadow);
+            max-width: 900px;
+            display: none;
+        }
+
+        #vent h2 {
+            font-size: 36px;
+            margin-bottom: 25px;
+            color: var(--calm-primary);
+        }
+
+        #vent p {
+            font-size: 20px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        #vent textarea {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 15px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            resize: vertical;
+            transition: border-color var(--transition-duration), box-shadow var(--transition-duration);
+            font-family: var(--font-family);
+            color: var(--calm-text);
+            background-color: var(--calm-card);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #vent textarea:focus {
+            border-color: var(--calm-primary);
+            outline: none;
+            box-shadow: 0 0 8px rgba(139, 195, 74, 0.4);
+        }
+
+        #vent button {
+            background: var(--calm-primary);
+            color: white;
+            padding: 14px 25px;
+            border: none;
+            border-radius: 60px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color var(--transition-duration), transform var(--transition-duration);
+            box-shadow: 3px 3px 10px var(--calm-shadow);
+        }
+
+        #vent button:hover {
+            background: var(--calm-secondary);
+            transform: scale(1.05);
+        }
+
+        /* Contact Us Section */
+        #contact {
+            background: var(--calm-background);
+            color: var(--calm-text);
+            padding: 60px 30px;
+            margin: 90px auto;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px var(--calm-shadow);
+            max-width: 900px;
+            display: none;
+        }
+
+        #contact h2 {
+            font-size: 36px;
+            margin-bottom: 25px;
+            color: var(--calm-primary);
+        }
+
+        #contact p {
+            font-size: 20px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        #contact a {
+            color: var(--calm-primary);
+            text-decoration: none;
+            transition: color var(--transition-duration);
+        }
+
+        #contact a:hover {
+            text-decoration: underline;
+            color: var(--calm-secondary);
+        }
+
+        #contact iframe {
+            border-radius: 20px;
+            box-shadow: 0 6px 12px var(--calm-shadow);
+            margin-top: 30px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            background: var(--calm-footer-bg);
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            border-radius: 30px 30px 0 0;
+            box-shadow: 0 -6px 12px var(--calm-shadow);
+            margin-top: auto;
+            font-size: 16px;
+            transition: background-color var(--transition-duration);
+        }
+
+        /* Chatbot Styles */
+        #chatbot-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 380px;
+            background: var(--calm-chatbot-bg);
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 1001;
+            overflow: hidden;
+            transition: width var(--transition-duration), height var(--transition-duration),
+                background var(--transition-duration);
+            height: 450px;
+        }
+
+        #chatbot-header {
+            background: var(--calm-primary);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 20px 20px 0 0;
+            transition: background var(--transition-duration);
+        }
+
+        #chatbot-header h3 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        #chatbot-close {
+            cursor: pointer;
+            font-size: 28px;
+            transition: color var(--transition-duration);
+        }
+
+        #chatbot-close:hover {
+            color: var(--calm-accent);
+        }
+
+        #chatbot-body {
+            padding: 20px;
+            height: 300px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--calm-secondary) var(--calm-background);
+            transition: background var(--transition-duration);
+            color: var(--calm-chatbot-text);
+        }
+
+        #chatbot-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #chatbot-body::-webkit-scrollbar-track {
+            background: var(--calm-background);
+        }
+
+        #chatbot-body::-webkit-scrollbar-thumb {
+            background-color: var(--calm-secondary);
+            border-radius: 4px;
+        }
+
+        .chatbot-message {
+            margin-bottom: 12px;
+            padding: 14px 18px;
+            border-radius: 20px;
+            clear: both;
+            font-size: 17px;
+            line-height: 1.5;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .chatbot-message.user {
+            background: var(--calm-chatbot-user-bg);
+            color: var(--calm-chatbot-text);
+            text-align: right;
+            float: right;
+            box-shadow: 0 3px 6px var(--calm-shadow);
+            transition: background var(--transition-duration), color var(--transition-duration);
+        }
+
+        .chatbot-message.bot {
+            background: var(--calm-chatbot-bot-bg);
+            color: var(--calm-chatbot-text);
+            text-align: left;
+            float: left;
+            box-shadow: 0 3px 6px var(--calm-shadow);
+            transition: background var(--transition-duration), color var(--transition-duration);
+        }
+
+        #chatbot-input-area {
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+        }
+
+        #chatbot-input {
+            flex-grow: 1;
+            padding: 14px 20px;
+            border: 1px solid #ccc;
+            border-radius: 30px;
+            margin-right: 15px;
+            font-size: 18px;
+            transition: border-color var(--transition-duration), box-shadow var(--transition-duration);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+            color: var(--calm-chatbot-text);
+            background: var(--calm-chatbot-bg);
+        }
+
+        #chatbot-input:focus {
+            border-color: var(--calm-primary);
+            outline: none;
+            box-shadow: 0 0 5px rgba(102, 187, 106, 0.5);
+        }
+
+        #chatbot-send {
+            background: var(--calm-primary);
+            color: white;
+            border: none;
+            padding: 14px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color var(--transition-duration), transform var(--transition-duration),
+                box-shadow var(--transition-duration);
+            box-shadow: 3px 3px 10px var(--calm-shadow);
+        }
+
+        #chatbot-send:hover {
+            background-color: var(--calm-secondary);
+            transform: scale(1.05);
+            box-shadow: 4px 4px 14px var(--calm-shadow);
+        }
+
+        /* Floating Chat Button */
+        #chat-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--calm-primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 65px;
+            height: 65px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: 0 6px 12px var(--calm-shadow);
+            z-index: 1000;
+            transition: background-color var(--transition-duration), transform var(--transition-duration);
+        }
+
+        #chat-button:hover {
+            background-color: var(--calm-secondary);
+            transform: scale(1.08);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            nav {
+                padding: 12px 0;
+                border-radius: 0 0 20px 20px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav a,
+            .dark-mode-toggle,
+            .language-select {
+                font-size: 16px;
+                margin: 8px 12px;
+                padding: 8px 16px;
+                border-radius: 20px;
+            }
+
+            .hero {
+                padding: 120px 20px;
+                margin-top: 50px;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+                margin-bottom: 15px;
+            }
+
+            .hero p {
+                font-size: 20px;
+                margin-bottom: 30px;
+            }
+
+            .hero .cta-button {
+                padding: 14px 28px;
+                font-size: 16px;
+            }
+
+            .features {
+                padding: 40px 15px;
+                gap: 20px;
+            }
+
+            .feature-card {
+                width: 100%;
+                max-width: 400px;
+                padding: 20px;
+            }
+
+            .feature-card h3 {
+                font-size: 22px;
+            }
+
+            .feature-card p {
+                font-size: 16px;
+            }
+
+            #test,
+            #imageTest,
+            #illusionTest,
+            #sleep,
+            #vent {
+                padding: 40px 15px;
+                margin: 60px auto;
+            }
+
+            #test h2,
+            #imageTest h2,
+            #illusionTest h2,
+            #sleep h2,
+            #vent h2 {
+                font-size: 30px;
+                margin-bottom: 20px;
+            }
+
+            #test p,
+            #imageTest p,
+            #illusionTest p,
+            #sleep p,
+            #vent p {
+                font-size: 18px;
+                margin-bottom: 20px;
+            }
+
+            #test button,
+            #imageTest button,
+            #illusionTest button,
+            #sleep button,
+            #vent button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+
+            .question,
+            .image-question,
+            .illusion-question {
+                padding: 15px;
+            }
+
+            .question p,
+            .image-question p,
+            .illusion-question p {
+                font-size: 18px;
+            }
+
+            .question label,
+            .image-question label,
+            .illusion-question label {
+                font-size: 16px;
+            }
+
+            .navigation-buttons button,
+            .image-navigation-buttons button {
+                padding: 10px 18px;
+                font-size: 16px;
+            }
+
+            #meditation {
+                padding: 40px 15px;
+                margin: 60px auto;
+            }
+
+            #meditation h2 {
+                font-size: 30px;
+            }
+
+            .meditation-options {
+                gap: 15px;
+            }
+
+            .meditation-button {
+                padding: 10px 18px;
+                font-size: 16px;
+            }
+
+            #timer {
+                font-size: 30px;
+            }
+
+            .instructions h3 {
+                font-size: 22px;
+            }
+
+            .instructions li {
+                font-size: 16px;
+            }
+
+            .quote {
+                font-size: 18px;
+            }
+
+            #contact {
+                padding: 40px 15px;
+                margin: 60px auto;
+            }
+
+            #contact h2 {
+                font-size: 30px;
+            }
+
+            #contact p {
+                font-size: 18px;
+            }
+
+            #contact iframe {
+                margin-top: 20px;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            footer {
+                padding: 20px 0;
+                font-size: 14px;
+            }
+
+            #chatbot-container {
+                width: 90%;
+                max-width: 400px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            #chatbot-header {
+                padding: 15px;
+            }
+
+            #chatbot-header h3 {
+                font-size: 20px;
+            }
+
+            #chatbot-close {
+                font-size: 24px;
+            }
+
+            #chatbot-body {
+                height: 250px;
+                padding: 15px;
+            }
+
+            .chatbot-message {
+                font-size: 16px;
+                padding: 12px 16px;
+            }
+
+            #chatbot-input-area {
+                padding: 15px;
+            }
+
+            #chatbot-input {
+                font-size: 16px;
+            }
+
+            #chatbot-send {
+                font-size: 16px;
+            }
+
+            #chat-button {
+                width: 55px;
+                height: 55px;
+                font-size: 26px;
+            }
+
+            .language-select {
+                width: 100%;
+                text-align: center;
+                padding: 10px;
+                margin-top: 10px;
+            }
+
+            .language-select::after {
+                right: 15px;
+            }
+
+            .features {
+                flex-direction: column;
+            }
+
+            .feature-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="#" onclick="showSection('home')" data-translate="home">Home</a>
+        <a href="#" onclick="showSection('features')" data-translate="features">Features</a>
+        <a href="#" onclick="showSection('test')" data-translate="test">Test</a>
+        <a href="#" onclick="showSection('meditation')" data-translate="meditation">Meditation</a>
+        <a href="#" onclick="showSection('sleep')" data-translate="sleep">Sleep</a>
+        <a href="#" onclick="showSection('vent')" data-translate="vent">Stress Relief</a>
+        <a href="#" onclick="showSection('contact')" data-translate="contact">Contact</a>
+        <div class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</div>
+        <div class="language-select-container">
+            <select class="language-select" id="languageSelect" onchange="changeLanguage(this.value)">
+                <option value="en" data-flag="us">
+                    <span class="flag-icon">🇺🇸</span> English
+                </option>
+                <option value="zh" data-flag="cn">
+                    <span class="flag-icon">🇨🇳</span> 中文
+                </option>
+                <option value="my" data-flag="mm">
+                    <span class="flag-icon">🇲🇲</span> မြန်မာ
+                </option>
+                <option value="fr" data-flag="fr">
+                    <span class="flag-icon">🇫🇷</span> Français
+                </option>
+                <option value="es" data-flag="es">
+                    <span class="flag-icon">🇪🇸</span> Español
+                </option>
+            </select>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1 data-translate="hero_title">DeepSpace: Your Path to Mental Well-being</h1>
+        <p data-translate="hero_subtitle">Discover tools and resources to nurture your mind and enhance your life.
+            Explore our features and embark on a journey towards inner peace.</p>
+        <button class="cta-button" onclick="showSection('features')" data-translate="hero_button">Explore
+            Features</button>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="feature-card">
+            <h3 data-translate="stress_title">Stress Management</h3>
+            <p data-translate="stress_desc">Learn effective strategies to manage stress in your daily life. From
+                mindfulness to time management, find the tools you need to stay calm and focused.</p>
+        </div>
+        <div class="feature-card">
+            <h3 data-translate="anxiety_title">Anxiety Relief</h3>
+            <p data-translate="anxiety_desc">Discover techniques to alleviate anxiety and promote relaxation. Explore
+                guided meditations, breathing exercises, and other resources to ease your mind.</p>
+        </div>
+        <div class="feature-card">
+            <h3 data-translate="finance_title">Financial Well-being</h3>
+            <p data-translate="finance_desc">Get tips to manage financial stress and improve your financial health.
+                Learn how to budget, save, and make informed decisions.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Workplace Stress Tips</h3>
+            <p>Here are some tips to manage workplace stress:</p>
+            <ul>
+                <li>Set clear boundaries between work and personal life.</li>
+                <li>Take regular breaks to recharge during the day.</li>
+                <li>Prioritize tasks and focus on one thing at a time.</li>
+                <li>Communicate with your manager about workload concerns.</li>
+                <li>Practice relaxation techniques like deep breathing.</li>
+            </ul>
+        </div>
+        <div class="feature-card">
+            <h3>General Anxiety Tips</h3>
+            <p>Here are some tips to manage general anxiety:</p>
+            <ul>
+                <li>Practice deep breathing exercises daily.</li>
+                <li>Engage in regular physical activity like yoga or walking.</li>
+                <li>Limit caffeine and alcohol intake.</li>
+                <li>Maintain a consistent sleep schedule.</li>
+                <li>Seek professional help if anxiety persists.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Mental Well-Being Test Section -->
+    <section id="test">
+        <h2 data-translate="test_title">Mental Well-Being Test</h2>
+        <p data-translate="test_desc">Answer the following questions to assess your mental well-being.</p>
+        <button onclick="startTest()" class="pill-button" data-translate="test_button">Start Test</button>
+        <div id="testQuestions" style="display: none;">
+            <div class="progress-bar">
+                <div id="progress"></div>
+            </div>
+            <!-- Questions will be dynamically loaded here -->
+            <div class="navigation-buttons">
+                <button id="prevButton" onclick="prevQuestion()" class="pill-button">Previous</button>
+                <button id="nextButton" onclick="nextQuestion()" class="pill-button">Next</button>
+            </div>
+        </div>
+        <div id="testResult" style="display: none;">
+            <h3>Your Test Result</h3>
+            <p id="resultText"></p>
+        </div>
+    </section>
+
+    <!-- Image-Based Mental Well-being Test Section -->
+    <section id="imageTest">
+        <h2 data-translate="image_test_title">Image-Based Mental Well-being Test</h2>
+        <p data-translate="image_test_desc">Choose the image that best represents your current feelings.</p>
+        <button onclick="startImageTest()" class="pill-button" data-translate="image_test_button">Start Image
+            Test</button>
+        <div id="imageTestQuestions" style="display: none;">
+            <div class="progress-bar">
+                <div id="imageProgress"></div>
+            </div>
+            <!-- Image questions will be dynamically loaded here -->
+            <div class="image-navigation-buttons">
+                <button id="imagePrevButton" onclick="prevImageQuestion()" class="pill-button">Previous</button>
+                <button id="imageNextButton" onclick="nextImageQuestion()" class="pill-button">Next</button>
+            </div>
+        </div>
+        <div id="imageTestResult" style="display: none;">
+            <h3>Your Image Test Result</h3>
+            <p id="imageResultText"></p>
+        </div>
+    </section>
+
+    <!-- Illusion Test -->
+    <section id="illusionTest">
+        <h2 data-translate="illusion_test_title">Illusion Test</h2>
+        <p data-translate="illusion_test_desc">Observe the following image carefully and answer questions about what you perceive.</p>
+        <button onclick="startIllusionTest()" class="pill-button">Start Illusion Test</button>
+        <div id="illusionTestQuestions" style="display: none;">
+            <div class="progress-bar">
+                <div id="illusionProgress"></div>
+            </div>
+            <!-- Illusion questions will be dynamically loaded here -->
+            <div class="image-navigation-buttons">
+                <button id="illusionPrevButton" onclick="prevIllusionQuestion()" class="pill-button">Previous</button>
+                <button id="illusionNextButton" onclick="nextIllusionQuestion()" class="pill-button">Next</button>
+            </div>
+        </div>
+        <div id="illusionTestResult" style="display: none;">
+            <h3>Your Illusion Test Result</h3>
+            <p id="illusionResultText"></p>
+        </div>
+    </section>
+
+    <!-- Sleep Section -->
+    <section id="sleep">
+        <h2 data-translate="sleep_title">Sleep Sounds</h2>
+        <p data-translate="sleep_desc">Listen to calming sounds to help you relax and fall asleep.</p>
+        <div class="sleep-options">
+            <button class="sleep-button pill-button" onclick="playSleepSound('ocean')">Ocean Waves</button>
+            <button class="sleep-button pill-button" onclick="playSleepSound('rain')">Rain</button>
+            <button class="sleep-button pill-button" onclick="playSleepSound('forest')">Forest</button>
+            <button class="sleep-button pill-button" onclick="playSleepSound('fire')">Fire</button>
+        </div>
+        <audio id="oceanAudio" loop>
+            <source src="https://assets.mixkit.co/sfx/preview/mixkit-waves-coming-to-the-beach-5016.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <audio id="rainAudio" loop>
+            <source src="https://assets.mixkit.co/sfx/preview/mixkit-rain-loop-1243.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <audio id="forestAudio" loop>
+            <source src="https://assets.mixkit.co/sfx/preview/mixkit-forest-ambience-1683.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <audio id="fireAudio" loop>
+            <source src="https://assets.mixkit.co/sfx/preview/mixkit-campfire-crackles-1330.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </section>
+
+    <!-- Vent Section -->
+    <section id="vent">
+        <h2 data-translate="vent_title">Stress Relief: Venting Space</h2>
+        <p data-translate="vent_desc">Write down what's bothering you. A friendly AI will analyze your text and offer supportive responses.</p>
+        <textarea id="ventTextarea" rows="5" placeholder="Type your thoughts here..."></textarea>
+        <button onclick="analyzeVent()" class="pill-button">Submit</button>
+        <div id="ventResponse" style="margin-top: 20px; display: none;">
+            <h3>AI Response:</h3>
+            <p id="aiResponseText"></p>
+        </div>
+    </section>
+
+    <!-- Meditation Section -->
+    <section id="meditation">
+        <h2 data-translate="meditation_title">Mindfulness and Meditation</h2>
+        <p data-translate="meditation_desc">Practice mindfulness to improve focus, reduce stress, and enhance
+            well-being.</p>
+
+        <div class="instructions">
+            <h3 data-translate="meditation_instructions_title">Step-by-Step Meditation Guide</h3>
+            <ol>
+                <li data-translate="instruction_step1">Find a quiet and comfortable place to sit or lie down.</li>
+                <li data-translate="instruction_step2">Close your eyes and take a few deep breaths to relax.</li>
+                <li data-translate="instruction_step3">Focus on your breath, noticing the sensation of air entering and
+                    leaving your body.</li>
+                <li data-translate="instruction_step4">If your mind wanders, gently bring your focus back to your
+                    breath.</li>
+                <li data-translate="instruction_step5">Continue this practice for the duration of your chosen
+                    meditation.</li>
+            </ol>
+        </div>
+
+        <div class="quote" id="motivationalQuote"></div>
+
+        <h3>Choose a Meditation Duration</h3>
+        <div class="meditation-options">
+            <button class="meditation-button pill-button" onclick="startMeditation(1)">1 Min</button>
+            <button class="meditation-button pill-button" onclick="startMeditation(3)">3 Min</button>
+            <button class="meditation-button pill-button" onclick="startMeditation(5)">5 Min</button>
+            <button class="meditation-button pill-button" onclick="startMeditation(10)">10 Min</button>
+            <button class="meditation-button pill-button" onclick="startMeditation(15)">15 Min</button>
+        </div>
+
+        <div id="breathContainer">
+            <div id="breathBubble"></div>
+            <div id="breathText"></div>
+        </div>
+
+        <div id="countdown" data-translate="start_meditation">Starting in: <span id="countdownTimer">5</span></div>
+        <div id="timer"></div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section id="contact">
+        <h2 data-translate="contact_title">Contact Us</h2>
+        <p data-translate="contact_desc">If you have any questions or need support, feel free to reach out to us:</p>
+        <p>Email: <a href="mailto:helpdeepspace@gmail.com">helpdeepspace@gmail.com</a></p>
+        <p>Join our <a href="https://discord.gg/HFDhkQAmgu" target="_blank">Discord Community</a> for more discussions and
+            support.</p>
+        <iframe src="https://ptb.discord.com/widget?id=1340162676738752562&theme=dark" width="100%" height="500"
+            allowtransparency="true" frameborder="0"
+            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+    </section>
+
+    <!-- Footer -->
+    <footer></footer>
+
+    <!-- Chatbot Button -->
+    <button id="chat-button" onclick="toggleChatbot()">💬</button>
+
+    <!-- Chatbot Container -->
+    <div id="chatbot-container">
+        <div id="chatbot-header">
+            <h3>DeepSpace AI</h3>
+            <span id="chatbot-close" onclick="toggleChatbot()">✖</span>
+        </div>
+        <div id="chatbot-body">
+            <!-- Chat messages will go here -->
+            <div class="chatbot-message bot">
+                Hello! I'm DeepSpace AI. How can I help you today?
+            </div>
+        </div>
+        <div id="chatbot-input-area">
+            <input type="text" id="chatbot-input" placeholder="Type your message...">
+            <button id="chatbot-send" onclick="sendMessage()" class="pill-button">Send</button>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="instructionAudio">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-clear-announce-tones-2861.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="meditationMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-meditative-soft-piano-1246.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="buzzerSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-clear-announce-tones-2861.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Function to show/hide sections
+        function showSection(sectionId) {
+            document.querySelectorAll('section, .hero, .features').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+
+            // Scroll to the top of the section
+            if (sectionId !== 'home') {
+                document.getElementById(sectionId).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            } else {
+                // Ensure scrolling to the top when 'Home' is clicked
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            // Save the dark mode preference to localStorage
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+            
+            // Update the toggle button icon
+            const toggleBtn = document.querySelector('.dark-mode-toggle');
+            toggleBtn.textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        // Load Dark Mode Preference
+        function loadDarkModePreference() {
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                // Update the toggle button icon
+                document.querySelector('.dark-mode-toggle').textContent = '☀️';
+            }
+        }
+
+        loadDarkModePreference();
+
+        // Mental Well-Being Test
+        const testQuestions = [
+            "How often do you feel stressed?",
+            "Do you have trouble sleeping?",
+            "How often do you feel happy?",
+            "Do you feel supported by your friends and family?",
+            "How often do you feel overwhelmed?",
+            "Do you find it hard to focus on tasks?",
+            "How often do you engage in physical activity?",
+            "Do you feel satisfied with your daily routine?",
+            "How often do you feel anxious?",
+            "Do you feel motivated to achieve your goals?"
+        ];
+
+        let currentQuestion = 0;
+        let answers = [];
+
+        function startTest() {
+            const testContainer = document.getElementById("testQuestions");
+            testContainer.innerHTML = `
+                <div class="progress-bar">
+                    <div id="progress"></div>
+                </div>
+                ${testQuestions.map((question, index) => `
+                    <div class="question ${index === 0 ? 'active' : ''}">
+                        <p>${question}</p>
+                        <label><input type="radio" name="q${index}" value="1"> Never</label>
+                        <label><input type="radio" name="q${index}" value="2"> Rarely</label>
+                        <label><input type="radio" name="q${index}" value="3"> Sometimes</label>
+                        <label><input type="radio" name="q${index}" value="4"> Often</label>
+                        <label><input type="radio" name="q${index}" value="5"> Always</label>
+                    </div>
+                `).join("")}
+                <div class="navigation-buttons">
+                    <button id="prevButton" onclick="prevQuestion()" class="pill-button">Previous</button>
+                    <button id="nextButton" onclick="nextQuestion()" class="pill-button">Next</button>
+                </div>
+            `;
+            testContainer.style.display = "block";
+            document.getElementById("testResult").style.display = "none";
+            document.querySelector("#test button").style.display = "none";
+            answers = []; // Reset answers when starting a new test
+            currentQuestion = 0;
+            updateProgress();
+            showQuestion(currentQuestion);
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < testQuestions.length - 1) {
+                saveAnswer();
+                currentQuestion++;
+                showQuestion(currentQuestion);
+                updateProgress();
+            } else {
+                evaluateTest();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                saveAnswer();
+                currentQuestion--;
+                showQuestion(currentQuestion);
+                updateProgress();
+            }
+        }
+
+        function showQuestion(index) {
+            document.querySelectorAll('.question').forEach((q, i) => {
+                q.classList.toggle('active', i === index);
+                // Fade-in animation
+                q.style.animation = 'fadeIn 0.6s ease-out';
+            });
+            document.getElementById('prevButton').style.display = index === 0 ? 'none' : 'block';
+            document.getElementById('nextButton').textContent = index === testQuestions.length - 1 ? 'Submit' : 'Next';
+        }
+
+        function saveAnswer() {
+            const selectedOption = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+            if (selectedOption) {
+                answers[currentQuestion] = parseInt(selectedOption.value);
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / testQuestions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function evaluateTest() {
+            saveAnswer();
+            const totalScore = answers.reduce((sum, value) => sum + value, 0);
+            const averageScore = totalScore / testQuestions.length;
+            let resultText = "";
+
+            if (averageScore <= 2) {
+                resultText = "You seem to be doing great! Keep up the good work.";
+            } else if (averageScore <= 3.5) {
+                resultText = "You're doing okay, but there's room for improvement. Consider practicing mindfulness.";
+            } else {
+                resultText = "You may be experiencing some challenges. Reach out for support and consider professional help.";
+            }
+
+            document.getElementById("resultText").textContent = resultText;
+            document.getElementById("testResult").style.display = "block";
+            document.getElementById("testQuestions").style.display = "none";
+            // Scroll to the result
+            document.getElementById("testResult").scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Image Test
+        const imageTestQuestions = [{
+                image: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80",
+                description: "Which image best represents how you feel right now?",
+                options: [{
+                    label: "Calm and peaceful",
+                    value: "1"
+                }, {
+                    label: "Neutral or indifferent",
+                    value: "2"
+                }, {
+                    label: "Stressed or anxious",
+                    value: "3"
+                }]
+            },
+            {
+                image: "https://images.unsplash.com/photo-1493612276216-ee3925520721?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1528&q=80",
+                description: "How would you describe your energy levels?",
+                options: [{
+                    label: "High energy",
+                    value: "1"
+                }, {
+                    label: "Moderate energy",
+                    value: "2"
+                }, {
+                    label: "Low energy",
+                    value: "3"
+                }]
+            },
+            {
+                image: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80",
+                description: "How satisfied are you with your current situation?",
+                options: [{
+                    label: "Very satisfied",
+                    value: "1"
+                }, {
+                    label: "Somewhat satisfied",
+                    value: "2"
+                }, {
+                    label: "Not satisfied",
+                    value: "3"
+                }]
+            }
+        ];
+
+        let currentImageQuestion = 0;
+        let imageAnswers = [];
+
+        function startImageTest() {
+            const imageTestContainer = document.getElementById("imageTestQuestions");
+            imageTestContainer.innerHTML = ''; // Clear existing content
+            imageTestContainer.innerHTML += `
+                <div class="progress-bar">
+                    <div id="imageProgress"></div>
+                </div>
+                ${imageTestQuestions.map((q, index) => `
+                    <div class="image-question ${index === 0 ? 'active' : ''}">
+                        <p>${q.description}</p>
+                        <img src="${q.image}" alt="Image for question ${index + 1}">
+                        ${q.options.map((option, optIndex) => `
+                            <label><input type="radio" name="imageQ${index}" value="${option.value}"> ${option.label}</label>
+                        `).join("")}
+                    </div>
+                `).join("")}
+                <div class="image-navigation-buttons">
+                    <button id="imagePrevButton" onclick="prevImageQuestion()" class="pill-button">Previous</button>
+                    <button id="imageNextButton" onclick="nextImageQuestion()" class="pill-button">Next</button>
+                </div>
+            `;
+
+            document.getElementById("imageTestQuestions").style.display = "block";
+            document.getElementById("imageTestResult").style.display = "none";
+            document.querySelector("#imageTest button").style.display = "none";
+            imageAnswers = [];
+            currentImageQuestion = 0;
+            updateImageProgress();
+            showImageQuestion(currentImageQuestion);
+        }
+
+        function nextImageQuestion() {
+            if (currentImageQuestion < imageTestQuestions.length - 1) {
+                saveImageAnswer();
+                currentImageQuestion++;
+                showImageQuestion(currentImageQuestion);
+                updateImageProgress();
+            } else {
+                evaluateImageTest();
+            }
+        }
+
+        function prevImageQuestion() {
+            if (currentImageQuestion > 0) {
+                saveImageAnswer();
+                currentImageQuestion--;
+                showImageQuestion(currentImageQuestion);
+                updateImageProgress();
+            }
+        }
+
+        function showImageQuestion(index) {
+            document.querySelectorAll('.image-question').forEach((q, i) => {
+                q.classList.toggle('active', i === index);
+                q.style.animation = 'fadeIn 0.6s ease-out'; // Fade-in animation
+            });
+            document.getElementById('imagePrevButton').style.display = index === 0 ? 'none' : 'block';
+            document.getElementById('imageNextButton').textContent = index === imageTestQuestions.length - 1 ?
+                'Submit' : 'Next';
+        }
+
+        function saveImageAnswer() {
+            const selectedOption = document.querySelector(`input[name="imageQ${currentImageQuestion}"]:checked`);
+            if (selectedOption) {
+                imageAnswers[currentImageQuestion] = parseInt(selectedOption.value);
+            }
+        }
+
+        function updateImageProgress() {
+            const progress = ((currentImageQuestion + 1) / imageTestQuestions.length) * 100;
+            document.getElementById('imageProgress').style.width = `${progress}%`;
+        }
+
+        function evaluateImageTest() {
+            saveImageAnswer();
+            const totalScore = imageAnswers.reduce((sum, value) => sum + value, 0);
+            let imageResultText = "Based on your selections, it appears you are experiencing...";
+
+            if (totalScore <= 5) {
+                imageResultText += " relatively positive feelings. Consider focusing on what makes you happy.";
+            } else if (totalScore <= 7) {
+                imageResultText += " some mixed emotions. Try practicing mindfulness to ground yourself.";
+            } else {
+                imageResultText += " some challenges. It might be beneficial to explore additional support resources.";
+            }
+
+            document.getElementById("imageResultText").textContent = imageResultText;
+            document.getElementById("imageTestResult").style.display = "block";
+            document.getElementById("imageTestQuestions").style.display = "none";
+            document.getElementById("imageTestResult").scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Illusion Test
+        const illusionTestQuestions = [{
+                image: "https://upload.wikimedia.org/wikipedia/commons/5/55/The_Sun_and_the_Moon_%28Rabbit_and_Duck%29.jpg",
+                description: "What do you see in this image?",
+                options: [{
+                    label: "A rabbit",
+                    value: "1"
+                }, {
+                    label: "A duck",
+                    value: "2"
+                }, {
+                    label: "Both",
+                    value: "3"
+                }]
+            },
+            {
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Zollner_illusion.svg/1200px-Zollner_illusion.svg.png",
+                description: "Are the lines parallel or not?",
+                options: [{
+                    label: "Parallel",
+                    value: "1"
+                }, {
+                    label: "Not Parallel",
+                    value: "2"
+                }, {
+                    label: "Unsure",
+                    value: "3"
+                }]
+            },
+            {
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Ebbinghaus_illusion.svg/1200px-Ebbinghaus_illusion.svg.png",
+                description: "Which circle is larger?",
+                options: [{
+                    label: "The one on the left",
+                    value: "1"
+                }, {
+                    label: "The one on the right",
+                    value: "2"
+                }, {
+                    label: "They are the same size",
+                    value: "3"
+                }]
+            }
+        ];
+
+        let currentIllusionQuestion = 0;
+        let illusionAnswers = [];
+
+        function startIllusionTest() {
+            const illusionTestContainer = document.getElementById("illusionTestQuestions");
+            illusionTestContainer.innerHTML = ''; // Clear existing content
+            illusionTestContainer.innerHTML += `
+                <div class="progress-bar">
+                    <div id="illusionProgress"></div>
+                </div>
+                ${illusionTestQuestions.map((q, index) => `
+                    <div class="illusion-question ${index === 0 ? 'active' : ''}">
+                        <p>${q.description}</p>
+                        <img src="${q.image}" alt="Illusion Image ${index + 1}">
+                        ${q.options.map((option, optIndex) => `
+                            <label><input type="radio" name="illusionQ${index}" value="${option.value}"> ${option.label}</label>
+                        `).join("")}
+                    </div>
+                `).join("")}
+                <div class="image-navigation-buttons">
+                    <button id="illusionPrevButton" onclick="prevIllusionQuestion()" class="pill-button">Previous</button>
+                    <button id="illusionNextButton" onclick="nextIllusionQuestion()" class="pill-button">Next</button>
+                </div>
+            `;
+
+            document.getElementById("illusionTestQuestions").style.display = "block";
+            document.getElementById("illusionTestResult").style.display = "none";
+            document.querySelector("#illusionTest button").style.display = "none";
+            illusionAnswers = [];
+            currentIllusionQuestion = 0;
+            updateIllusionProgress();
+            showIllusionQuestion(currentIllusionQuestion);
+        }
+
+        function nextIllusionQuestion() {
+            if (currentIllusionQuestion < illusionTestQuestions.length - 1) {
+                saveIllusionAnswer();
+                currentIllusionQuestion++;
+                showIllusionQuestion(currentIllusionQuestion);
+                updateIllusionProgress();
+            } else {
+                evaluateIllusionTest();
+            }
+        }
+
+        function prevIllusionQuestion() {
+            if (currentIllusionQuestion > 0) {
+                saveIllusionAnswer();
+                currentIllusionQuestion--;
+                showIllusionQuestion(currentIllusionQuestion);
+                updateIllusionProgress();
+            }
+        }
+
+        function showIllusionQuestion(index) {
+            document.querySelectorAll('.illusion-question').forEach((q, i) => {
+                q.classList.toggle('active', i === index);
+                q.style.animation = 'fadeIn 0.6s ease-out'; // Fade-in animation
+            });
+            document.getElementById('illusionPrevButton').style.display = index === 0 ? 'none' : 'block';
+            document.getElementById('illusionNextButton').textContent = index === illusionTestQuestions.length - 1 ?
+                'Submit' : 'Next';
+        }
+
+        function saveIllusionAnswer() {
+            const selectedOption = document.querySelector(`input[name="illusionQ${currentIllusionQuestion}"]:checked`);
+            if (selectedOption) {
+                illusionAnswers[currentIllusionQuestion] = parseInt(selectedOption.value);
+            }
+        }
+
+        function updateIllusionProgress() {
+            const progress = ((currentIllusionQuestion + 1) / illusionTestQuestions.length) * 100;
+            document.getElementById('illusionProgress').style.width = `${progress}%`;
+        }
+
+        function evaluateIllusionTest() {
+            saveIllusionAnswer();
+            let illusionResultText = "Your perception suggests...";
+            const totalScore = illusionAnswers.reduce((sum, value) => sum + value, 0);
+
+            if (totalScore <= 5) {
+                illusionResultText += " a stable and balanced cognitive approach. You process visual information effectively.";
+            } else if (totalScore <= 7) {
+                illusionResultText += " a tendency to consider multiple perspectives. Your brain is doing a good job!";
+            } else {
+                illusionResultText += " that you might be susceptible to perceptual biases or that you are thinking carefully. That's OK!";
+            }
+
+            document.getElementById("illusionResultText").textContent = illusionResultText;
+            document.getElementById("illusionTestResult").style.display = "block";
+            document.getElementById("illusionTestQuestions").style.display = "none";
+            document.getElementById("illusionTestResult").scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Sleep Sounds Functionality
+        function playSleepSound(sound) {
+            // Stop all other sounds
+            ['oceanAudio', 'rainAudio', 'forestAudio', 'fireAudio'].forEach(audioId => {
+                const audio = document.getElementById(audioId);
+                if (audio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
+
+            // Play the selected sound
+            const audio = document.getElementById(sound + 'Audio');
+            if (audio) {
+                audio.play();
+            }
+        }
+
+        // Vent Section - AI Response
+        function analyzeVent() {
+            const textarea = document.getElementById('ventTextarea');
+            const text = textarea.value.trim();
+            const aiResponse = document.getElementById('aiResponseText');
+            const ventResponseDiv = document.getElementById('ventResponse');
+
+            if (text) {
+                // Simple keyword-based response (improve this with a real AI)
+                let response = "I hear you. It sounds like you're going through something challenging.";
+                
+                // Check for specific keywords and respond accordingly
+                if (text.toLowerCase().includes("stress") || text.toLowerCase().includes("stressed")) {
+                    response = "Stress can be overwhelming. Try taking deep breaths or going for a short walk to clear your mind.";
+                } 
+                else if (text.toLowerCase().includes("anxious") || text.toLowerCase().includes("anxiety")) {
+                    response = "Anxiety can feel overwhelming. Remember to breathe deeply and focus on the present moment. You're stronger than you think.";
+                } 
+                else if (text.toLowerCase().includes("sad") || text.toLowerCase().includes("depressed")) {
+                    response = "I'm sorry you're feeling this way. It's okay to not be okay. Consider reaching out to someone you trust or trying a small activity you enjoy.";
+                } 
+                else if (text.toLowerCase().includes("angry") || text.toLowerCase().includes("mad")) {
+                    response = "Anger is a natural emotion. Try counting to 10 or taking deep breaths before responding to the situation.";
+                }
+                else if (text.toLowerCase().includes("happy") || text.toLowerCase().includes("joy")) {
+                    response = "That's wonderful to hear! Celebrate these positive feelings and consider journaling about what's bringing you joy.";
+                }
+                else if (text.toLowerCase().includes("tired") || text.toLowerCase().includes("exhausted")) {
+                    response = "Fatigue can really affect your mood. Make sure you're getting enough rest and staying hydrated. Even a short break can help.";
+                }
+                else if (text.toLowerCase().includes("work") || text.toLowerCase().includes("job")) {
+                    response = "Work can be stressful. Remember to take breaks and set boundaries when needed. Your well-being is important.";
+                }
+                else if (text.toLowerCase().includes("friend") || text.toLowerCase().includes("family")) {
+                    response = "Relationships can be complicated. Open communication is often the key to resolving conflicts.";
+                }
+                else {
+                    // Default response with some suggestions
+                    response = "Thank you for sharing. Here are some things that might help:\n" +
+                               "1. Take 5 deep breaths\n" +
+                               "2. Go for a short walk\n" +
+                               "3. Write down 3 things you're grateful for\n" +
+                               "4. Listen to calming music\n" +
+                               "5. Try a short meditation";
+                }
+
+                aiResponse.textContent = response;
+                ventResponseDiv.style.display = 'block';
+                // Scroll to the AI response
+                ventResponseDiv.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            } else {
+                aiResponse.textContent = "Please write something in the box to vent.";
+                ventResponseDiv.style.display = 'block';
+            }
+        }
+
+        // Meditation
+        let meditationTimer;
+        let meditationDuration;
+        let meditationStartTime;
+        let breathCycleInterval;
+
+        function startMeditation(minutes) {
+            meditationDuration = minutes * 60;
+            meditationStartTime = Date.now();
+
+            document.getElementById('meditation').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+
+            document.getElementById('countdown').style.display = 'block';
+            document.getElementById('timer').innerText = '';
+            document.getElementById('breathBubble').classList.remove('inhale', 'exhale');
+            document.getElementById('breathText').innerText = '';
+            
+            let countdown = 5;
+            document.getElementById('countdownTimer').innerText = countdown;
+
+            const countdownInterval = setInterval(() => {
+                countdown--;
+                document.getElementById('countdownTimer').innerText = countdown;
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('countdown').style.display = 'none';
+                    startTimer();
+                    startBreathingCycle();
+                    document.getElementById('instructionAudio').play();
+                    document.getElementById('meditationMusic').play();
+                }
+            }, 1000);
+        }
+
+        function startBreathingCycle() {
+            let isInhale = true;
+            
+            function cycleBreath() {
+                if (isInhale) {
+                    document.getElementById('breathText').innerText = 'Inhale';
+                    document.getElementById('breathBubble').classList.remove('exhale');
+                    document.getElementById('breathBubble').classList.add('inhale');
+                } else {
+                    document.getElementById('breathText').innerText = 'Exhale';
+                    document.getElementById('breathBubble').classList.remove('inhale');
+                    document.getElementById('breathBubble').classList.add('exhale');
+                }
+                isInhale = !isInhale;
+            }
+            
+            // Start the first cycle immediately
+            cycleBreath();
+            
+            // Set up the interval for continuous cycling (5s inhale + 5s exhale = 10s total)
+            breathCycleInterval = setInterval(cycleBreath, 10000);
+        }
+
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+            meditationTimer = setInterval(() => {
+                const elapsedTime = Math.floor((Date.now() - meditationStartTime) / 1000);
+                const timeLeft = meditationDuration - elapsedTime;
+
+                if (timeLeft <= 0) {
+                    clearInterval(meditationTimer);
+                    clearInterval(breathCycleInterval);
+                    timerElement.innerText = "Meditation Complete!";
+                    document.getElementById('meditationMusic').pause();
+                    document.getElementById('buzzerSound').play();
+                    document.getElementById('breathBubble').classList.remove('inhale', 'exhale');
+                    document.getElementById('breathText').innerText = '';
+                    return;
+                }
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerElement.innerText = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // Get random motivational quote
+        const quotes = [{
+                quote: "The greatest weapon against stress is our ability to choose one thought over another. - William James",
+                author: "William James"
+            },
+            {
+                quote: "Your mind is a garden, your thoughts are the seeds, you can grow flowers, or you can grow weeds.",
+                author: "Unknown"
+            },
+            {
+                quote: "Almost everything will work again if you unplug it for a few minutes, including you.",
+                author: "Anne Lamott"
+            },
+            {
+                quote: "The best way to take care of the future is to take care of the present moment.",
+                author: "Thich Nhat Hanh"
+            },
+            {
+                quote: "Happiness is not something ready made. It comes from your own actions.",
+                author: "Dalai Lama"
+            }
+        ];
+
+        function getRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const randomQuote = quotes[randomIndex];
+            document.getElementById('motivationalQuote').innerHTML = `"${randomQuote.quote}"<br>- ${randomQuote.author}`;
+        }
+        getRandomQuote();
+
+        // Chatbot Functionality
+        function toggleChatbot() {
+            const chatbotContainer = document.getElementById('chatbot-container');
+            chatbotContainer.style.display = chatbotContainer.style.display === 'none' ? 'block' : 'none';
+            
+            // Focus on input when opening
+            if (chatbotContainer.style.display === 'block') {
+                document.getElementById('chatbot-input').focus();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatbot-input');
+            const message = input.value.trim();
+
+            if (message) {
+                addMessage('user', message);
+                input.value = '';
+
+                // Simple AI response logic
+                setTimeout(() => {
+                    let response = "I'm here to help. ";
+                    
+                    if (message.toLowerCase().includes('stress') || message.toLowerCase().includes('anxious')) {
+                        response += "It sounds like you're feeling stressed. Try taking deep breaths - inhale for 4 seconds, hold for 4, exhale for 6. Would you like to try a short meditation?";
+                    } 
+                    else if (message.toLowerCase().includes('sad') || message.toLowerCase().includes('depress')) {
+                        response += "I'm sorry you're feeling this way. Remember that feelings are temporary, and it's okay to not be okay. Would you like some suggestions for self-care activities?";
+                    }
+                    else if (message.toLowerCase().includes('sleep') || message.toLowerCase().includes('tired')) {
+                        response += "Sleep issues can be challenging. Try establishing a regular bedtime routine and limiting screen time before bed. Would you like to listen to some relaxing sounds?";
+                    }
+                    else if (message.toLowerCase().includes('meditation') || message.toLowerCase().includes('breathe')) {
+                        response += "Meditation can be very helpful. Try focusing on your breath for a few minutes. Inhale deeply through your nose, then exhale slowly through your mouth. Would you like me to guide you through a short meditation?";
+                    }
+                    else if (message.toLowerCase().includes('help') || message.toLowerCase().includes('support')) {
+                        response += "I'm here to listen. For additional support, you might consider reaching out to a mental health professional or a trusted friend. Would you like some resources?";
+                    }
+                    else {
+                        response += "Thank you for sharing. Remember to be kind to yourself. How can I support you further?";
+                    }
+                    
+                    addMessage('bot', response);
+                }, 1000);
+            }
+        }
+
+        function addMessage(sender, text) {
+            const chatBody = document.getElementById('chatbot-body');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chatbot-message', sender);
+            messageDiv.textContent = text;
+            chatBody.appendChild(messageDiv);
+            chatBody.scrollTop = chatBody.scrollHeight; // Scroll to the bottom
+        }
+
+        // Allow pressing Enter to send message
+        document.getElementById('chatbot-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Language Translation
+        const translations = {
+            en: {
+                home: "Home",
+                features: "Features",
+                test: "Test",
+                meditation: "Meditation",
+                sleep: "Sleep",
+                vent: "Stress Relief",
+                contact: "Contact",
+                hero_title: "DeepSpace: Your Path to Mental Well-being",
+                hero_subtitle: "Discover tools and resources to nurture your mind and enhance your life. Explore our features and embark on a journey towards inner peace.",
+                hero_button: "Explore Features",
+                stress_title: "Stress Management",
+                stress_desc: "Learn effective strategies to manage stress in your daily life. From mindfulness to time management, find the tools you need to stay calm and focused.",
+                anxiety_title: "Anxiety Relief",
+                anxiety_desc: "Discover techniques to alleviate anxiety and promote relaxation. Explore guided meditations, breathing exercises, and other resources to ease your mind.",
+                finance_title: "Financial Well-being",
+                finance_desc: "Get tips to manage financial stress and improve your financial health. Learn how to budget, save, and make informed decisions.",
+                test_title: "Mental Well-Being Test",
+                test_desc: "Answer the following questions to assess your mental well-being.",
+                test_button: "Start Test",
+                image_test_title: "Image-Based Mental Well-being Test",
+                image_test_desc: "Choose the image that best represents your current feelings.",
+                image_test_button: "Start Image Test",
+                meditation_title: "Mindfulness and Meditation",
+                meditation_desc: "Practice mindfulness to improve focus, reduce stress, and enhance well-being.",
+                meditation_instructions_title: "Step-by-Step Meditation Guide",
+                instruction_step1: "Find a quiet and comfortable place to sit or lie down.",
+                instruction_step2: "Close your eyes and take a few deep breaths to relax.",
+                instruction_step3: "Focus on your breath, noticing the sensation of air entering and leaving your body.",
+                instruction_step4: "If your mind wanders, gently bring your focus back to your breath.",
+                instruction_step5: "Continue this practice for the duration of your chosen meditation.",
+                sleep_title: "Sleep Sounds",
+                sleep_desc: "Listen to calming sounds to help you relax and fall asleep.",
+                vent_title: "Stress Relief: Venting Space",
+                vent_desc: "Write down what's bothering you. A friendly AI will analyze your text and offer supportive responses.",
+                contact_title: "Contact Us",
+                contact_desc: "If you have any questions or need support, feel free to reach out to us:",
+                start_meditation: "Starting in:",
+                meditation_duration: "Duration: ",
+                illusion_test_title: "Illusion Test",
+                illusion_test_desc: "Observe the image and answer the questions"
+            },
+            zh: {
+                home: "主页",
+                features: "功能",
+                test: "测试",
+                meditation: "冥想",
+                sleep: "睡眠",
+                vent: "缓解压力",
+                contact: "联系我们",
+                hero_title: "DeepSpace：您通往心理健康之路",
+                hero_subtitle: "探索滋养您的心灵并改善您生活的工具和资源。探索我们的功能，踏上通往内心平静的旅程。",
+                hero_button: "探索功能",
+                stress_title: "压力管理",
+                stress_desc: "学习在日常生活中管理压力的有效策略。从正念到时间管理，找到您保持冷静和专注所需的工具。",
+                anxiety_title: "焦虑缓解",
+                anxiety_desc: "探索减轻焦虑和促进放松的技术。探索引导式冥想、呼吸练习和其他资源来放松您的心情。",
+                finance_title: "财务健康",
+                finance_desc: "获取管理财务压力和改善财务健康状况的技巧。学习如何预算、储蓄和做出明智的决定。",
+                test_title: "心理健康测试",
+                test_desc: "回答以下问题以评估您的心理健康。",
+                test_button: "开始测试",
+                image_test_title: "基于图像的心理健康测试",
+                image_test_desc: "选择最能代表您当前感受的图像。",
+                image_test_button: "开始图像测试",
+                meditation_title: "正念和冥想",
+                meditation_desc: "练习正念以提高注意力、减轻压力和增强幸福感。",
+                meditation_instructions_title: "冥想分步指南",
+                instruction_step1: "找一个安静舒适的地方坐下或躺下。",
+                instruction_step2: "闭上眼睛，深呼吸几次以放松。",
+                instruction_step3: "专注于您的呼吸，注意空气进入和离开您身体的感觉。",
+                instruction_step4: "如果您的思绪游离，请轻轻地将注意力集中在您的呼吸上。",
+                instruction_step5: "持续练习您选择的冥想时间。",
+                sleep_title: "睡眠声音",
+                sleep_desc: "听放松的声音来帮助你放松和入睡",
+                vent_title: "缓解压力：发泄空间",
+                vent_desc: "写下困扰你的事情。一个友好的 AI 将分析您的文本并提供支持性回复。",
+                contact_title: "联系我们",
+                contact_desc: "如果您有任何问题或需要支持，请随时与我们联系：",
+                start_meditation: "开始于:",
+                meditation_duration: "持续时间: ",
+                illusion_test_title: "视觉错觉测试",
+                illusion_test_desc: "观察图像并回答问题"
+            },
+            my: {
+                home: "ပင်မစာမျက်နှာ",
+                features: "အင်္ဂါရပ်များ",
+                test: "စမ်းသပ်မှု",
+                meditation: "တရားထိုင်ခြင်း",
+                sleep: "အိပ်စက်ခြင်း",
+                vent: "စိတ်ဖိစီးမှုသက်သာခြင်း",
+                contact: "ဆက်သွယ်ရန်",
+                hero_title: "DeepSpace - စိတ်ကျန်းမာရေးအတွက် သင်၏ခရီး",
+                hero_subtitle: "သင်၏စိတ်ကိုပြုစုပျိုးထောင်ပြီးသင်၏ဘဝကိုမြှင့်တင်ရန်ကိရိယာများနှင့်အရင်းအမြစ်များကိုရှာဖွေပါ။ ကျွန်ုပ်တို့၏အင်္ဂါရပ်များကိုစူးစမ်းပြီးအတွင်းစိတ်ငြိမ်သက်မှုသို့ခရီးစတင်ပါ။",
+                hero_button: "အင်္ဂါရပ်များကိုစူးစမ်းပါ",
+                stress_title: "ဖိစီးမှုစီမံခန့်ခွဲမှု",
+                stress_desc: "သင်၏နေ့စဉ်ဘဝတွင်ဖိစီးမှုကိုစီမံခန့်ခွဲရန်ထိရောက်သောနည်းဗျူဟာများကိုလေ့လာပါ။ သတိရှိခြင်းမှအချိန်စီမံခန့်ခွဲမှုအထိ၊ ငြိမ်သက်ပြီးအာရုံစူးစိုက်နေရန်လိုအပ်သောကိရိယာများကိုရှာဖွေပါ။",
+                anxiety_title: "စိုးရိမ်ပူပန်မှုသက်သာခြင်း",
+                anxiety_desc: "စိုးရိမ်ပူပန်မှုကိုသက်သာစေပြီးအပန်းဖြေမှုကိုမြှင့်တင်ရန်နည်းစနစ်များကိုရှာဖွေပါ။ သင်၏စိတ်ကိုသက်သာစေရန်လမ်းညွှန်တရားထိုင်ခြင်း၊ အသက်ရှူလေ့ကျင့်ခန်းများနှင့်အခြားအရင်းအမြစ်များကိုစူးစမ်းပါ။",
+                finance_title: "ငွေကြေးဆိုင်ရာကျန်းမာရေး",
+                finance_desc: "ငွေကြေးဖိစီးမှုကိုစီမံခန့်ခွဲပြီးသင်၏ငွေကြေးကျန်းမာရေးကိုတိုးတက်စေရန်အကြံပေးချက်များရယူပါ။ ဘတ်ဂျက်ဘယ်လိုချမလဲ၊ ဘယ်လိုစုဆောင်းမလဲ၊ ဘယ်လိုဆုံးဖြတ်ချက်တွေချမလဲဆိုတာကိုလေ့လာပါ။",
+                test_title: "စိတ်ကျန်းမာရေးစမ်းသပ်မှု",
+                test_desc: "သင်၏စိတ်ကျန်းမာရေးကိုအကဲဖြတ်ရန်အောက်ပါမေးခွန်းများကိုဖြေပါ။",
+                test_button: "စမ်းသပ်မှုကိုစတင်ပါ",
+                image_test_title: "ပုံအခြေခံစိတ်ကျန်းမာရေးစမ်းသပ်မှု",
+                image_test_desc: "သင်၏လက်ရှိခံစားချက်များကိုအကောင်းဆုံးကိုယ်စားပြုသောပုံကိုရွေးချယ်ပါ။",
+                image_test_button: "ပုံစမ်းသပ်မှုကိုစတင်ပါ",
+                meditation_title: "သတိပဋ္ဌာန်နှင့်တရားထိုင်ခြင်း",
+                meditation_desc: "အာရုံစူးစိုက်မှုကိုတိုးတက်စေရန်၊ ဖိစီးမှုကိုလျှော့ချရန်နှင့်ကျန်းမာရေးကိုမြှင့်တင်ရန်သတိပဋ္ဌာန်ကိုကျင့်ပါ။",
+                meditation_instructions_title: "အဆင့်ဆင့်တရားထိုင်ခြင်းလမ်းညွှန်",
+                instruction_step1: "တိတ်ဆိတ်ပြီးသက်တောင့်သက်သာရှိသောနေရာတွင်ထိုင်ပါသို့မဟုတ်လဲလျောင်းပါ။",
+                instruction_step2: "သင်၏မျက်လုံးများကိုပိတ်ပြီးအနားယူရန်နက်ရှိုင်းစွာအသက်အနည်းငယ်ရှူပါ။",
+                instruction_step3: "သင်၏အသက်ရှူခြင်းကိုအာရုံစိုက်ပါ၊ လေသည်သင်၏ခန္ဓာကိုယ်ထဲသို့ ၀ င်ရောက်ပြီးထွက်ခွာသွားသည်ကိုသတိပြုပါ။",
+                instruction_step4: "သင်၏စိတ်သည်လွင့်ပါကသင်၏အာရုံကိုသင်၏အသက်ရှူခြင်းသို့ညင်သာစွာပြန်ယူပါ။",
+                instruction_step5: "သင်ရွေးချယ်သောတရားထိုင်ခြင်းကာလအတွက်ဤအလေ့အကျင့်ကိုဆက်လုပ်ပါ။",
+                sleep_title: "အိပ်စက်ခြင်းအသံ",
+                sleep_desc: "အပန်းဖြေပြီးအိပ်ပျော်စေရန်ငြိမ်းအေးသောအသံများကိုနားထောင်ပါ။",
+                vent_title: "စိတ်ဖိစီးမှုသက်သာခြင်း- စိတ်ပွင့်လင်းမှုနေရာ",
+                vent_desc: "သင့်ကိုစိတ်အနှောင့်အယှက်ဖြစ်စေသောအရာများကိုရေးချပါ။ ဖော်ရွေသော AI သည်သင်၏စာသားကိုခွဲခြမ်းစိတ်ဖြာပြီးထောက်ခံမှုပေးသောတုံ့ပြန်မှုများကိုပေးလိမ့်မည်။",
+                contact_title: "ဆက်သွယ်ရန်",
+                contact_desc: "သင်၌မေးခွန်းများရှိပါက (သို့) ပံ့ပိုးမှုလိုအပ်ပါကကျွန်ုပ်တို့အားဆက်သွယ်ရန်အခမဲ့ခံစားရပါသည်:",
+                start_meditation: "စတင်ခြင်း:",
+                meditation_duration: "ကြာချိန်: ",
+                illusion_test_title: "အမြင်ယောင်စမ်းသပ်မှု",
+                illusion_test_desc: "ပုံကိုလေ့လာပြီးမေးခွန်းများကိုဖြေဆိုပါ"
+            },
+            fr: {
+                home: "Accueil",
+                features: "Fonctionnalités",
+                test: "Test",
+                meditation: "Méditation",
+                sleep: "Sommeil",
+                vent: "Soulagement du stress",
+                contact: "Contact",
+                hero_title: "DeepSpace : Votre chemin vers le bien-être mental",
+                hero_subtitle: "Découvrez des outils et des ressources pour nourrir votre esprit et améliorer votre vie. Explorez nos fonctionnalités et lancez-vous dans un voyage vers la paix intérieure.",
+                hero_button: "Explorer les fonctionnalités",
+                stress_title: "Gestion du stress",
+                stress_desc: "Apprenez des stratégies efficaces pour gérer le stress dans votre vie quotidienne. De la pleine conscience à la gestion du temps, trouvez les outils dont vous avez besoin pour rester calme et concentré.",
+                anxiety_title: "Soulagement de l'anxiété",
+                anxiety_desc: "Découvrez des techniques pour atténuer l'anxiété et favoriser la relaxation. Explorez les méditations guidées, les exercices de respiration et d'autres ressources pour apaiser votre esprit.",
+                finance_title: "Bien-être financier",
+                finance_desc: "Obtenez des conseils pour gérer le stress financier et améliorer votre santé financière. Apprenez à établir un budget, à épargner et à prendre des décisions éclairées.",
+                test_title: "Test de bien-être mental",
+                test_desc: "Répondez aux questions suivantes pour évaluer votre bien-être mental.",
+                test_button: "Commencer le test",
+                image_test_title: "Test de bien-être mental basé sur l'image",
+                image_test_desc: "Choisissez l'image qui représente le mieux vos sentiments actuels.",
+                image_test_button: "Commencer le test d'image",
+                meditation_title: "Pleine conscience et méditation",
+                meditation_desc: "Pratiquez la pleine conscience pour améliorer la concentration, réduire le stress et améliorer le bien-être.",
+                meditation_instructions_title: "Guide de méditation étape par étape",
+                instruction_step1: "Trouvez un endroit calme et confortable pour vous asseoir ou vous allonger.",
+                instruction_step2: "Fermez les yeux et prenez quelques respirations profondes pour vous détendre.",
+                instruction_step3: "Concentrez-vous sur votre respiration, en remarquant la sensation de l'air qui entre et sort de votre corps.",
+                instruction_step4: "Si votre esprit s'égare, ramenez doucement votre attention sur votre respiration.",
+                instruction_step5: "Continuez cette pratique pendant la durée de votre méditation choisie.",
+                sleep_title: "Sons du sommeil",
+                sleep_desc: "Écoutez des sons apaisants pour vous aider à vous détendre et à vous endormir.",
+                vent_title: "Soulagement du stress : Espace de ventilation",
+                vent_desc: "Écrivez ce qui vous dérange. Une IA conviviale analysera votre texte et offrira des réponses de soutien.",
+                contact_title: "Contactez-nous",
+                contact_desc: "Si vous avez des questions ou avez besoin d'aide, n'hésitez pas à nous contacter :",
+                start_meditation: "Début dans :",
+                meditation_duration: "Durée : ",
+                illusion_test_title: "Test d'illusion",
+                illusion_test_desc: "Observez l'image et répondez aux questions"
+            },
+            es: {
+                home: "Inicio",
+                features: "Características",
+                test: "Prueba",
+                meditation: "Meditación",
+                sleep: "Sueño",
+                vent: "Alivio del estrés",
+                contact: "Contacto",
+                hero_title: "DeepSpace: Tu Camino hacia el Bienestar Mental",
+                hero_subtitle: "Descubre herramientas y recursos para nutrir tu mente y mejorar tu vida. Explora nuestras funciones y emprende un viaje hacia la paz interior.",
+                hero_button: "Explorar Características",
+                stress_title: "Gestión del estrés",
+                stress_desc: "Aprende estrategias efectivas para manejar el estrés en tu vida diaria. Desde la atención plena hasta la gestión del tiempo, encuentra las herramientas que necesitas para mantener la calma y la concentración.",
+                anxiety_title: "Alivio de la ansiedad",
+                anxiety_desc: "Descubre técnicas para aliviar la ansiedad y promover la relajación. Explora meditaciones guiadas, ejercicios de respiración y otros recursos para tranquilizar tu mente.",
+                finance_title: "Bienestar financiero",
+                finance_desc: "Obtén consejos para gestionar el estrés financiero y mejorar tu salud financiera. Aprende a presupuestar, ahorrar y tomar decisiones informadas.",
+                test_title: "Prueba de Bienestar Mental",
+                test_desc: "Responde las siguientes preguntas para evaluar tu bienestar mental.",
+                test_button: "Iniciar Prueba",
+                image_test_title: "Prueba de Bienestar Mental Basada en Imágenes",
+                image_test_desc: "Elige la imagen que mejor represente tus sentimientos actuales.",
+                image_test_button: "Iniciar Prueba de Imagen",
+                meditation_title: "Atención plena y meditación",
+                meditation_desc: "Practica la atención plena para mejorar la concentración, reducir el estrés y mejorar el bienestar.",
+                meditation_instructions_title: "Guía de meditación paso a paso",
+                instruction_step1: "Encuentra un lugar tranquilo y cómodo para sentarte o recostarte.",
+                instruction_step2: "Cierra los ojos y respira profundamente varias veces para relajarte.",
+                instruction_step3: "Concéntrate en tu respiración, notando la sensación del aire entrando y saliendo de tu cuerpo.",
+                instruction_step4: "Si tu mente divaga, suavemente vuelve a centrar tu atención en tu respiración.",
+                instruction_step5: "Continúa esta práctica durante la duración de la meditación que elijas.",
+                sleep_title: "Sonidos del sueño",
+                sleep_desc: "Escucha sonidos relajantes para ayudarte a relajarte y conciliar el sueño.",
+                vent_title: "Alivio del estrés: Espacio para desahogarse",
+                vent_desc: "Escribe lo que te molesta. Una IA amigable analizará tu texto y ofrecerá respuestas de apoyo.",
+                contact_title: "Contáctanos",
+                contact_desc: "Si tienes alguna pregunta o necesitas apoyo, no dudes en contactarnos:",
+                start_meditation: "Empezando en:",
+                meditation_duration: "Duración: ",
+                illusion_test_title: "Prueba de Ilusión",
+                illusion_test_desc: "Observa la imagen y responde a las preguntas"
+            }
+        };
+
+        function changeLanguage(lang) {
+            // Save language preference
+            localStorage.setItem('language', lang);
+            translatePage(lang);
+        }
+
+        function translatePage(lang) {
+            const elementsToTranslate = document.querySelectorAll('[data-translate]');
+            elementsToTranslate.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            // Change language select option
+            const languageSelect = document.getElementById('languageSelect');
+            for (let i = 0; i < languageSelect.options.length; i++) {
+                if (languageSelect.options[i].value === lang) {
+                    languageSelect.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+
+        // Load Language Preference
+        function loadLanguagePreference() {
+            const savedLanguage = localStorage.getItem('language');
+            const defaultLanguage = 'en'; // Or whatever your default is
+
+            const languageToUse = savedLanguage || defaultLanguage;
+            translatePage(languageToUse);
+        }
+
+        loadLanguagePreference();
+
+        // Initialize the UI and Show the "Home" section by default
+        showSection('home');
+    </script>
+</body>
+
+</html>
